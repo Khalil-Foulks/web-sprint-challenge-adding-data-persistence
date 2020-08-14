@@ -50,7 +50,7 @@ router.post("/", (req, res) => {
 router.post("/resources", (req, res) => {
     const resourceData = req.body;
 
-    Resources.addResources(resourceData)
+    Projects.addResources(resourceData)
         .then(created => {
             res.status(201).json({ created });
         })
@@ -59,12 +59,13 @@ router.post("/resources", (req, res) => {
         });
 });
 
-router.post("/tasks", (req, res) => {
+router.post("/:id/tasks", (req, res) => {
     const taskData = req.body;
+    const id = req.params.id;
 
-    Tasks.addTasks(taskData)
+    Projects.addTasks(id, taskData)
         .then(created => {
-            res.status(201).json({ created });
+            res.status(201).json({ taskData });
         })
         .catch(err => {
             res.status(500).json({ message: "Failed to create new task" });
